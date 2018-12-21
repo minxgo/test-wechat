@@ -1,0 +1,10 @@
+@import "./post-temp/post-item-template";
+
+.container {
+  background-color: #ededed;
+}
+
+swiper, swiper image {
+  width:100%;
+  height:500rpx;
+}
