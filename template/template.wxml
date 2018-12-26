@@ -1,32 +1,33 @@
+<!-- 星星 -->
 <template name="stars">
   <view class="stars-container">
     <view class="stars">
-      <image src="/images/icon/star.png"></image>
-      <image src="/images/icon/star.png"></image>
-      <image src="/images/icon/star.png"></image>
-      <image src="/images/icon/star.png"></image>
-      <image src="/images/icon/star.png"></image>
+      <block wx:for="{{stars}}" wx:for-item="star" >
+        <image src="{{star==1?'/images/icon/star.png':'/images/icon/none-star.png'}}"></image>
+      </block>
     </view>
-    <text>{{average}}</text>
+    <text>{{score}}</text>
   </view>
 </template>
 
+<!-- 单个电影 -->
 <template name="movie">
   <view class="movie-container">
     <image class="movie-img" src="{{coverageUrl}}"></image>
     <text class="movie-text">{{title}}</text>
-    <template is="stars" data="{{average}}" />
+    <template is="stars" data="{{stars: stars, score: average}}" />
   </view>
 </template>
 
+<!-- 电影列表 -->
 <template name="movieList">
   <view class="movie-list-container">
     <view class="inner-container">
       <view class="movie-head">
         <view>
-          <text class="slogan">正在热映</text>
+          <text class="slogan">{{categoryTitle}}</text>
         </view>
-        <view class="more">
+        <view class="more" bindtap="onMoreTap" data-category="{{categoryTitle}}">
           <text class="more-text">更多</text>
           <image class="more-img" src="/images/icon/arrow-right.png"></image>
         </view>
@@ -37,5 +38,16 @@
         </block>
       </view>
     </view>
+  </view>
+</template>
+
+<!-- 更多列表 -->
+<template name="movieGrid">
+  <view class="movieGrid-container">
+    <block wx:for="{{movies}}" wx:for-item="movie">
+      <view class="singleView">
+        <template is="movie" data="{{...movie}}" />
+      </view>
+    </block>
   </view>
 </template>

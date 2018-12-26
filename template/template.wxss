@@ -80,3 +80,12 @@
   flex-direction: row;
   align-items: center;
 }
+
+.movieGrid-container {
+  margin: 40rpx 0 40rpx 10rpx;
+}
+
+.singleView {
+  float: left;
+  margin-bottom: 40rpx;
+}

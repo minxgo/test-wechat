@@ -1,40 +1,31 @@
 var app = getApp();
+const util = require("../../utils/util.js");
 
 Page({
 
   data: {
-    moviesss: [
-      {
-        average: 7,
-        coverageUrl: "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2519994468.jpg",
-        movieId: 326,
-        title: "后来的我们"
-      },
-      {
-        average: 7,
-        coverageUrl: "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2519994468.jpg",
-        movieId: 326,
-        title: "后来的我们"
-      },
-      {
-        average: 7,
-        coverageUrl: "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2519994468.jpg",
-        movieId: 326,
-        title: "后来的我们"
-      }
-    ]
+    inTheaters: {},
+    comingSoon: {},
+    top250: {}
   },
 
-  getMovieListData (url,title) {
+  onMoreTap(e) {
+    var category = e.currentTarget.dataset.category;
+    wx.navigateTo({
+      url: "/pages/movies/more-movies?category=" + category,
+    })
+  },
+
+  getMovieListData(url, settedKey, categoryTitle) {
     var that = this;
     wx.request({
       url: url,
       header: {
-        'content-type': 'application/json'
+        "content-type": "application/json"
       },
       success(res) {
         // console.log(res.data)
-        that.processDoubanData(res.data)
+        that.processDoubanData(res.data, settedKey, categoryTitle)
       },
       fail(err) {
         console.log(err)
@@ -42,25 +33,28 @@ Page({
     })
   },
 
-  processDoubanData (moviesDouban) {
+  processDoubanData(moviesDouban, settedKey, categoryTitle) {
     var movies = [], data = moviesDouban.subjects;
     for (var e in data ) {
       var subject = data[e], title = subject.title;
       if ( title.length >= 6 ) {
-        title = title.substring(0, 6) + '...';
+        title = title.substring(0, 6) + "...";
       }
       var temp = {
-        title: subject.title,
+        title,
         average: subject.rating.average,
         movieId: subject.id,
-        coverageUrl: subject.images.large
+        coverageUrl: subject.images.large,
+        stars: util.convertToStars(subject.rating.stars)
       }
       movies.push(temp);
     }
-    this.setData({
-      movies: movies
-    })
-    console.log(this.data.movies)
+    var readyData = {};
+    readyData[settedKey] = {
+      movies,
+      categoryTitle
+    };
+    this.setData(readyData);
   },
 
   onLoad: function (options) {
@@ -68,9 +62,9 @@ Page({
     var comingSoonUrl = app.globalData.doubanBase + "/v2/movie/coming_soon" + "?start=0&count=3";
     var top250Url = app.globalData.doubanBase + "/v2/movie/top250" + "?start=0&count=3";
 
-    this.getMovieListData(inTheatersUrl,"inTheaters");
-    this.getMovieListData(comingSoonUrl,"comingSoon");
-    this.getMovieListData(top250Url,"top250");
+    this.getMovieListData(inTheatersUrl, "inTheaters", "正在热映");
+    this.getMovieListData(comingSoonUrl, "comingSoon", "即将上映");
+    this.getMovieListData(top250Url, "top250", "top250");
   },
 
 })

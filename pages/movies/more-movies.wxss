@@ -1,0 +1,5 @@
+@import "/template/template.wxss";
+
+.container {
+  background-color: #f2f2f2;
+}

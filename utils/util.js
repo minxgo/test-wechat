@@ -1,19 +1,29 @@
-const formatTime = date => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+function convertToStars(stars) {
+  var num = stars.toString().substring(0,1), arr = [];
+  for ( var i=0; i<5; i++ ) {
+    i < num ? arr.push(1) : arr.push(0)
+  }
+  return arr;
 }
 
-const formatNumber = n => {
-  n = n.toString()
-  return n[1] ? n : '0' + n
+
+function http (url, callBack) {
+  var that = this;
+  wx.request({
+    url: url,
+    header: {
+      "content-type": "application/json"
+    },
+    success(res) {
+      callBack(res.data)
+    },
+    fail(err) {
+      console.log(err)
+    }
+  })
 }
 
 module.exports = {
-  formatTime: formatTime
+  convertToStars: convertToStars,
+  http: http
 }
