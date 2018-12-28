@@ -83,6 +83,7 @@
 
 .movieGrid-container {
   margin: 40rpx 0 40rpx 10rpx;
+  height: 1300rpx;
 }
 
 .singleView {

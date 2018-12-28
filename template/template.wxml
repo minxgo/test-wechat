@@ -43,11 +43,11 @@
 
 <!-- 更多列表 -->
 <template name="movieGrid">
-  <view class="movieGrid-container">
+  <scroll-view class="movieGrid-container" scroll-y="true" bindscrolltolower="onScrollLower" bindscrolltoupper="onScrollUpper">
     <block wx:for="{{movies}}" wx:for-item="movie">
       <view class="singleView">
         <template is="movie" data="{{...movie}}" />
       </view>
     </block>
-  </view>
+  </scroll-view>
 </template>
