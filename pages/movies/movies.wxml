@@ -1,6 +1,17 @@
 <import src="/template/template.wxml" />
-<view class="container">
+
+<view class="search">
+  <icon type="search" class="search-img" size="13" color="#405f00"></icon>
+  <input type="text" placeholder="血战钢锯岭" placeholder-class="searchPh" bindfocus="onBindFocus" bindblur="onBindBlur" />
+  <image wx:if="{{searchPanelShow}}" class="search-close" src="/images/icon/xx.png" bindtap="onCancelImg"></image>
+</view>
+
+<view class="container" wx:if="{{containerShow}}">
   <template is="movieList" data="{{...inTheaters}}" />
   <template is="movieList" data="{{...comingSoon}}" />
   <template is="movieList" data="{{...top250}}" />
+</view>
+
+<view class="search-panel" wx:if="{{searchPanelShow}}">
+  <template is="movieGrid" data="{{...searchResult}}" />
 </view>

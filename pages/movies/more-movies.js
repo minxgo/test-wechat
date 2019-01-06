@@ -76,6 +76,10 @@ Page({
     wx.hideNavigationBarLoading();
   },
 
+  onReachBottom() {
+    console.log(1)
+  },
+
   onReady() {
     wx.setNavigationBarTitle({
       title: this.data.naviCategory

@@ -6,7 +6,10 @@ Page({
   data: {
     inTheaters: {},
     comingSoon: {},
-    top250: {}
+    top250: {},
+    searchResult: {},
+    containerShow: true,
+    searchPanelShow: false
   },
 
   onMoreTap(e) {
@@ -16,6 +19,7 @@ Page({
     })
   },
 
+  //request 获取搜索列表
   getMovieListData(url, settedKey, categoryTitle) {
     var that = this;
     wx.request({
@@ -33,6 +37,7 @@ Page({
     })
   },
 
+  //data 获取搜索列表
   processDoubanData(moviesDouban, settedKey, categoryTitle) {
     var movies = [], data = moviesDouban.subjects;
     for (var e in data ) {
@@ -66,5 +71,32 @@ Page({
     this.getMovieListData(comingSoonUrl, "comingSoon", "即将上映");
     this.getMovieListData(top250Url, "top250", "top250");
   },
+
+  //获取焦点
+  onBindFocus() {
+    var that = this;
+    that.setData({
+      containerShow: false,
+      searchPanelShow: true
+    })
+    
+  },
+
+  //关闭搜索
+  onCancelImg() {
+    var that = this;
+    that.setData({
+      containerShow: true,
+      searchPanelShow: false,
+      searchResult: {}
+    })
+  }, 
+
+  //失去焦点
+  onBindBlur(e) {
+    var text = e.detail.value, that = this;
+    var searchUrl = app.globalData.doubanBase + "/v2/movie/search?q=" + text;
+    that.getMovieListData(searchUrl,"searchResult","");    
+  }
 
 })
